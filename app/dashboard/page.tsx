@@ -1,16 +1,40 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import Navbar from '../../components/Navbar'
 import Sidebar from '../../components/Sidebar'
 import StockCard from '../../components/StockCard'
 import PredictionChart from '../../components/PredictionChart'
 import AISuggestionCard from '../../components/AISuggestionCard'
 import { DashboardData, Prediction, News, Stock } from '../../lib/convex'
+import { useAuth } from '../../lib/auth-context'
 
 export default function Dashboard() {
-  // Mock user ID - in real app, get from authentication
-  const userId = "user_123" as any
+  const router = useRouter()
+  const { user, isLoading } = useAuth()
+  
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!isLoading && !user) {
+      router.push('/login')
+    }
+  }, [user, isLoading, router])
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-primary-900 via-secondary-900 to-primary-800 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-white/30 border-t-white rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-white/80">Loading dashboard...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (!user) {
+    return null // Will redirect to login
+  }
   
   // Mock dashboard data for build compatibility
   const dashboardData: DashboardData = {

@@ -6,8 +6,10 @@ import { ReactNode } from "react";
 // Initialize Convex client conditionally for build compatibility
 let convex: ConvexReactClient | null = null;
 
-if (typeof window !== 'undefined' && process.env.NEXT_PUBLIC_CONVEX_URL) {
-  convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL);
+if (typeof window !== 'undefined') {
+  // Use a default URL for development if not provided
+  const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL || "https://your-convex-deployment.convex.cloud";
+  convex = new ConvexReactClient(convexUrl);
 }
 
 export function ConvexClientProvider({ children }: { children: ReactNode }) {

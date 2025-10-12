@@ -4,9 +4,11 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useAuth } from "../../lib/auth-context";
 
 export default function LoginPage() {
   const router = useRouter();
+  const { signin, isLoading } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -18,17 +20,16 @@ export default function LoginPage() {
     setError("");
 
     try {
-      // Mock authentication for build compatibility
-      console.log('Sign in attempt:', { email, password });
-      
-      // Simulate successful authentication
-      setTimeout(() => {
-        setLoading(false);
+      const result = await signin(email, password);
+      if (result.success) {
         // Redirect to dashboard after successful authentication
         router.push('/dashboard');
-      }, 1500);
+      } else {
+        setError(result.error || "Sign in failed");
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
+    } finally {
       setLoading(false);
     }
   };

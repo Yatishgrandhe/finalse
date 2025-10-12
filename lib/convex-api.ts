@@ -1,17 +1,8 @@
-// Simplified Convex API for web app build compatibility
-export const api = {
-  functions: {
-    getGreeting: () => Promise.resolve("Hello from Convex!"),
-    getStocks: () => Promise.resolve([]),
-    getNews: () => Promise.resolve([]),
-    getPredictions: () => Promise.resolve([]),
-    getDashboardData: () => Promise.resolve({
-      portfolio: { totalValue: 0, totalGainLoss: 0 },
-      stocks: [],
-      predictions: [],
-      news: []
-    })
-  }
-};
+// Convex API imports
+import { api as convexApi } from "../convex/_generated/api";
 
-export const internal = api;
+// Export the real Convex API
+export const api = convexApi;
+
+// For backward compatibility, also export as internal
+export const internal = convexApi;

@@ -4,9 +4,11 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useAuth } from "../../lib/auth-context";
 
 export default function SignupPage() {
   const router = useRouter();
+  const { signup, isLoading } = useAuth();
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -26,17 +28,16 @@ export default function SignupPage() {
     }
 
     try {
-      // Mock authentication for build compatibility
-      console.log('Sign up attempt:', { email, name, password });
-      
-      // Simulate successful authentication
-      setTimeout(() => {
-        setLoading(false);
+      const result = await signup(email, name, password);
+      if (result.success) {
         // Redirect to dashboard after successful authentication
         router.push('/dashboard');
-      }, 1500);
+      } else {
+        setError(result.error || "Sign up failed");
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
+    } finally {
       setLoading(false);
     }
   };
