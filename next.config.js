@@ -53,7 +53,6 @@ const nextConfig = {
     ]
   },
   // Optimize for Vercel
-  output: 'standalone',
   poweredByHeader: false,
   compress: true,
   generateEtags: false,
