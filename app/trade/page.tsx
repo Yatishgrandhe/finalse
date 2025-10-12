@@ -1,9 +1,9 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Navbar from '../components/Navbar'
-import Sidebar from '../components/Sidebar'
-import AISuggestionCard from '../components/AISuggestionCard'
+import Navbar from '../../components/Navbar'
+import Sidebar from '../../components/Sidebar'
+import AISuggestionCard from '../../components/AISuggestionCard'
 
 export default function Trade() {
   const [searchSymbol, setSearchSymbol] = useState('')

@@ -1,10 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import Navbar from '../components/Navbar'
-import Sidebar from '../components/Sidebar'
-import AISuggestionCard from '../components/AISuggestionCard'
-import { Prediction } from '../lib/convex'
+import Navbar from '../../components/Navbar'
+import Sidebar from '../../components/Sidebar'
+import AISuggestionCard from '../../components/AISuggestionCard'
+import { Prediction } from '../../lib/convex'
 
 export default function AIPredictionsPage() {
   const [selectedTimeframe, setSelectedTimeframe] = useState<string>('all')

@@ -1,9 +1,9 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Navbar from '../components/Navbar'
-import Sidebar from '../components/Sidebar'
-import StockCard from '../components/StockCard'
+import Navbar from '../../components/Navbar'
+import Sidebar from '../../components/Sidebar'
+import StockCard from '../../components/StockCard'
 
 export default function Portfolio() {
   const [portfolio, setPortfolio] = useState<any[]>([])

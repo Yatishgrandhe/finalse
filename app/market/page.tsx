@@ -2,11 +2,11 @@
 
 import { useState } from 'react'
 import { YahooSearchResult } from '@/lib/yahoo-finance'
-import Navbar from '../components/Navbar'
-import Sidebar from '../components/Sidebar'
-import StockSearch from '../components/StockSearch'
-import StockQuote from '../components/StockQuote'
-import MarketOverview from '../components/MarketOverview'
+import Navbar from '../../components/Navbar'
+import Sidebar from '../../components/Sidebar'
+import StockSearch from '../../components/StockSearch'
+import StockQuote from '../../components/StockQuote'
+import MarketOverview from '../../components/MarketOverview'
 
 export default function MarketPage() {
   const [selectedStock, setSelectedStock] = useState<YahooSearchResult | null>(null)

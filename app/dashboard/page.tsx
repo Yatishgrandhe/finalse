@@ -1,12 +1,12 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Navbar from '../components/Navbar'
-import Sidebar from '../components/Sidebar'
-import StockCard from '../components/StockCard'
-import PredictionChart from '../components/PredictionChart'
-import AISuggestionCard from '../components/AISuggestionCard'
-import { DashboardData, Prediction, News, Stock } from '../lib/convex'
+import Navbar from '../../components/Navbar'
+import Sidebar from '../../components/Sidebar'
+import StockCard from '../../components/StockCard'
+import PredictionChart from '../../components/PredictionChart'
+import AISuggestionCard from '../../components/AISuggestionCard'
+import { DashboardData, Prediction, News, Stock } from '../../lib/convex'
 
 export default function Dashboard() {
   // Mock user ID - in real app, get from authentication
