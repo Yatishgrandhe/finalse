@@ -59,7 +59,7 @@ export default function HomePage() {
                 Sign In
               </Link>
               <Link 
-                href="/dashboard" 
+                href="/auth" 
                 className="bg-gradient-to-r from-secondary-600 to-accent-600 hover:from-secondary-700 hover:to-accent-700 text-white px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-secondary-500/25"
               >
                 Get Started
@@ -87,7 +87,7 @@ export default function HomePage() {
           
           <div className="flex flex-col sm:flex-row gap-6 justify-center mb-20">
             <Link 
-              href="/dashboard"
+              href="/auth"
               className="group bg-gradient-to-r from-secondary-600 to-accent-600 hover:from-secondary-700 hover:to-accent-700 text-white font-bold py-4 px-10 rounded-full text-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-secondary-500/25 relative overflow-hidden"
             >
               <span className="relative z-10">Start Trading</span>

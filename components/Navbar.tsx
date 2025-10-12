@@ -1,11 +1,25 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 
 export default function Navbar() {
   const [isProfileOpen, setIsProfileOpen] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsProfileOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
 
   return (
     <nav className="bg-primary-900 backdrop-blur-md border-b border-primary-800 text-white shadow-lg">
@@ -66,18 +80,18 @@ export default function Navbar() {
             </button>
 
             {/* Profile Dropdown */}
-            <div className="relative">
+            <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setIsProfileOpen(!isProfileOpen)}
                 className="flex items-center text-white/70 hover:text-white p-2 hover:bg-white/10 rounded-full transition-all duration-300 hover:scale-105"
               >
-                <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center shadow-lg">
+                <div className="w-8 h-8 bg-gradient-to-r from-secondary-500 to-accent-500 rounded-full flex items-center justify-center shadow-lg">
                   <span className="text-sm font-medium text-white">YG</span>
                 </div>
               </button>
 
               {isProfileOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white/10 backdrop-blur-md rounded-2xl shadow-2xl py-2 z-50 border border-white/20">
+                <div className="absolute right-0 mt-2 w-48 bg-white/10 backdrop-blur-md rounded-2xl shadow-2xl py-2 z-[9999] border border-white/20">
                   <Link href="/profile" className="block px-4 py-3 text-sm text-white hover:bg-white/10 transition-colors duration-300 rounded-lg mx-2">
                     <span className="flex items-center">
                       <span className="mr-2">👤</span>
