@@ -65,7 +65,6 @@ export default function MarketPage() {
                     shortName: selectedStock.shortName,
                     longName: selectedStock.longName,
                     exchange: selectedStock.exchange,
-                    type: selectedStock.type,
                     regularMarketPrice: 0,
                     regularMarketChange: 0,
                     regularMarketChangePercent: 0,

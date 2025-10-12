@@ -1,4 +1,4 @@
-// Simplified Convex API for build compatibility
+// Simplified Convex API for web app build compatibility
 export const api = {
   functions: {
     getGreeting: () => Promise.resolve("Hello from Convex!"),

@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    let result;
+    let result: any[] = [];
 
     if (symbols) {
       // Get multiple quotes

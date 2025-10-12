@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
     const symbol = searchParams.get('symbol');
     const period1 = searchParams.get('period1');
     const period2 = searchParams.get('period2');
-    const interval = searchParams.get('interval') as '1d' | '5d' | '1wk' | '1mo' | '3mo' || '1d';
+    const interval = searchParams.get('interval') as '1d' | '1wk' | '1mo' || '1d';
 
     if (!symbol) {
       return NextResponse.json(

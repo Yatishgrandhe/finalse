@@ -8,7 +8,7 @@ import AISuggestionCard from '../components/AISuggestionCard'
 export default function Trade() {
   const [searchSymbol, setSearchSymbol] = useState('')
   const [selectedStock, setSelectedStock] = useState(null)
-  const [aiRecommendations, setAiRecommendations] = useState([])
+  const [aiRecommendations, setAiRecommendations] = useState<any[]>([])
 
   useEffect(() => {
     // TODO: Fetch AI recommendations from Convex

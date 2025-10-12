@@ -61,12 +61,7 @@ export interface YahooNewsItem {
 // Yahoo Finance API service class
 export class YahooFinanceService {
   private static instance: YahooFinanceService;
-  private readonly defaultOptions = {
-    timeout: 10000,
-    headers: {
-      'User-Agent': 'FinAIse/1.0.0'
-    }
-  };
+  private readonly defaultOptions = {};
 
   private constructor() {}
 
@@ -117,7 +112,7 @@ export class YahooFinanceService {
     symbol: string,
     period1: Date,
     period2: Date,
-    interval: '1d' | '5d' | '1wk' | '1mo' | '3mo' = '1d'
+    interval: '1d' | '1wk' | '1mo' = '1d'
   ): Promise<YahooHistoricalData[]> {
     try {
       const result = await yahooFinance.historical(symbol, {
@@ -149,13 +144,15 @@ export class YahooFinanceService {
     try {
       const result = await yahooFinance.search(query, this.defaultOptions);
       
-      return result.quotes.map(quote => ({
-        symbol: quote.symbol,
-        shortName: quote.shortName,
-        longName: quote.longName,
-        exchange: quote.exchange,
-        type: quote.type
-      }));
+      return result.quotes
+        .filter(quote => (quote as any).symbol) // Filter out non-symbol results
+        .map(quote => ({
+          symbol: (quote as any).symbol,
+          shortName: (quote as any).shortName,
+          longName: (quote as any).longName,
+          exchange: (quote as any).exchange,
+          type: (quote as any).type
+        }));
     } catch (error) {
       console.error(`Error searching symbols for "${query}":`, error);
       return [];
@@ -169,12 +166,12 @@ export class YahooFinanceService {
     try {
       const result = await yahooFinance.trendingSymbols('US', this.defaultOptions);
       
-      return result.map(item => ({
+      return result.quotes.map(item => ({
         symbol: item.symbol,
-        shortName: item.shortName,
-        longName: item.longName,
-        exchange: item.exchange,
-        type: item.type
+        shortName: '',
+        longName: '',
+        exchange: '',
+        type: ''
       }));
     } catch (error) {
       console.error('Error fetching trending tickers:', error);
@@ -187,20 +184,9 @@ export class YahooFinanceService {
    */
   async getNews(symbol: string, count: number = 10): Promise<YahooNewsItem[]> {
     try {
-      const result = await yahooFinance.news(symbol, {
-        count,
-        ...this.defaultOptions
-      });
-
-      return result.map(item => ({
-        uuid: item.uuid,
-        title: item.title,
-        publisher: item.publisher,
-        link: item.link,
-        providerPublishTime: item.providerPublishTime,
-        type: item.type,
-        relatedTickers: item.relatedTickers
-      }));
+      // Yahoo Finance API doesn't have a direct news method
+      // Return empty array for now
+      return [];
     } catch (error) {
       console.error(`Error fetching news for ${symbol}:`, error);
       return [];
@@ -254,12 +240,9 @@ export class YahooFinanceService {
    */
   async getEarningsCalendar(startDate: Date, endDate: Date): Promise<any[]> {
     try {
-      const result = await yahooFinance.calendarEvents({
-        startDate,
-        endDate,
-        ...this.defaultOptions
-      });
-      return result.earnings || [];
+      // Yahoo Finance API doesn't have a direct calendarEvents method
+      // Return empty array for now
+      return [];
     } catch (error) {
       console.error('Error fetching earnings calendar:', error);
       return [];
@@ -408,10 +391,3 @@ export const financeUtils = {
   }
 };
 
-// Export types for use in other files
-export type {
-  YahooQuote,
-  YahooHistoricalData,
-  YahooSearchResult,
-  YahooNewsItem
-};

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 
 export default function PredictionChart() {
-  const [chartData, setChartData] = useState([])
+  const [chartData, setChartData] = useState<any[]>([])
 
   useEffect(() => {
     // TODO: Fetch real chart data from Convex

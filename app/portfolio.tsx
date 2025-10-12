@@ -6,7 +6,7 @@ import Sidebar from '../components/Sidebar'
 import StockCard from '../components/StockCard'
 
 export default function Portfolio() {
-  const [portfolio, setPortfolio] = useState([])
+  const [portfolio, setPortfolio] = useState<any[]>([])
   const [totalValue, setTotalValue] = useState(0)
   const [totalGainLoss, setTotalGainLoss] = useState(0)
 
