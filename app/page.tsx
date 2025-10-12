@@ -16,18 +16,18 @@ export default function HomePage() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-primary-900 via-secondary-900 to-primary-800 relative overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-500 rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-pulse delay-500"></div>
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-secondary-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-accent-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary-500 rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-pulse delay-500"></div>
       </div>
 
       {/* Navigation */}
       <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
         isScrolled 
-          ? 'bg-white/90 backdrop-blur-md shadow-lg' 
+          ? 'bg-primary-900/90 backdrop-blur-md shadow-lg' 
           : 'bg-transparent'
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -41,10 +41,10 @@ export default function HomePage() {
                   height={32}
                   className="object-contain drop-shadow-lg"
                 />
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full blur opacity-30"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-secondary-400 to-accent-500 rounded-full blur opacity-30"></div>
               </div>
               <h1 className={`text-2xl font-bold transition-colors duration-300 ${
-                isScrolled ? 'text-gray-900' : 'text-white'
+                isScrolled ? 'text-primary-900' : 'text-white'
               }`}>FinAIse</h1>
             </div>
             <div className="flex items-center space-x-4">
@@ -52,7 +52,7 @@ export default function HomePage() {
                 href="/auth" 
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:scale-105 ${
                   isScrolled 
-                    ? 'text-gray-600 hover:text-blue-600 hover:bg-blue-50' 
+                    ? 'text-primary-600 hover:text-secondary-600 hover:bg-secondary-50' 
                     : 'text-white/80 hover:text-white hover:bg-white/10'
                 }`}
               >
@@ -60,7 +60,7 @@ export default function HomePage() {
               </Link>
               <Link 
                 href="/dashboard" 
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/25"
+                className="bg-gradient-to-r from-secondary-600 to-accent-600 hover:from-secondary-700 hover:to-accent-700 text-white px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-secondary-500/25"
               >
                 Get Started
               </Link>
@@ -75,7 +75,7 @@ export default function HomePage() {
           <div className="inline-block">
             <h1 className="text-6xl md:text-7xl font-bold text-white mb-6 leading-tight">
               AI-Powered Financial
-              <span className="bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent animate-pulse">
+              <span className="bg-gradient-to-r from-secondary-400 via-accent-500 to-yellow-500 bg-clip-text text-transparent animate-pulse">
                 Intelligence
               </span>
             </h1>
@@ -88,7 +88,7 @@ export default function HomePage() {
           <div className="flex flex-col sm:flex-row gap-6 justify-center mb-20">
             <Link 
               href="/dashboard"
-              className="group bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-4 px-10 rounded-full text-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/25 relative overflow-hidden"
+              className="group bg-gradient-to-r from-secondary-600 to-accent-600 hover:from-secondary-700 hover:to-accent-700 text-white font-bold py-4 px-10 rounded-full text-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-secondary-500/25 relative overflow-hidden"
             >
               <span className="relative z-10">Start Trading</span>
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 transform translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>

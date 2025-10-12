@@ -9,6 +9,16 @@
   --accent-orange: #FF9900;
   --background-gray: #F5F5F5;
   --text-dark: #111111;
+  
+  /* Additional theme colors */
+  --navbar-bg: #0A1F44;
+  --sidebar-bg: #1F77B4;
+  --card-bg: #FFFFFF;
+  --text-light: #666666;
+  --border-color: #E5E5E5;
+  --success-green: #10B981;
+  --warning-yellow: #F59E0B;
+  --error-red: #EF4444;
 }
 
 /* Base styles */

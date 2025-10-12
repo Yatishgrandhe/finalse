@@ -8,7 +8,7 @@ export default function Navbar() {
   const [isProfileOpen, setIsProfileOpen] = useState(false)
 
   return (
-    <nav className="bg-black/20 backdrop-blur-md border-b border-white/10 text-white shadow-lg">
+    <nav className="bg-primary-900 backdrop-blur-md border-b border-primary-800 text-white shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
@@ -22,9 +22,9 @@ export default function Navbar() {
                   height={32}
                   className="object-contain drop-shadow-lg group-hover:scale-110 transition-transform duration-300"
                 />
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full blur opacity-30 group-hover:opacity-50 transition-opacity"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-secondary-500 to-accent-500 rounded-full blur opacity-30 group-hover:opacity-50 transition-opacity"></div>
               </div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent group-hover:from-blue-300 group-hover:to-purple-300 transition-all duration-300">
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-white to-secondary-300 bg-clip-text text-transparent group-hover:from-secondary-200 group-hover:to-accent-300 transition-all duration-300">
                 FinAIse
               </h1>
             </Link>

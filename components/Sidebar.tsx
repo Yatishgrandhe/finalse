@@ -8,26 +8,26 @@ export default function Sidebar() {
   const pathname = usePathname()
 
   const menuItems = [
-    { id: 'dashboard', label: 'Dashboard', icon: '📊', href: '/dashboard', color: 'from-blue-500 to-purple-500' },
+    { id: 'dashboard', label: 'Dashboard', icon: '📊', href: '/dashboard', color: 'from-primary-500 to-secondary-500' },
     { id: 'portfolio', label: 'Portfolio', icon: '💼', href: '/portfolio', color: 'from-green-500 to-emerald-500' },
-    { id: 'market', label: 'Market Overview', icon: '📈', href: '/market', color: 'from-orange-500 to-red-500' },
-    { id: 'news', label: 'News', icon: '📰', href: '/news', color: 'from-purple-500 to-pink-500' },
-    { id: 'ai', label: 'AI Predictions', icon: '🤖', href: '/ai', color: 'from-cyan-500 to-blue-500' },
-    { id: 'trade', label: 'Trade', icon: '💹', href: '/trade', color: 'from-yellow-500 to-orange-500' },
+    { id: 'market', label: 'Market Overview', icon: '📈', href: '/market', color: 'from-accent-500 to-orange-600' },
+    { id: 'news', label: 'News', icon: '📰', href: '/news', color: 'from-secondary-500 to-primary-500' },
+    { id: 'ai', label: 'AI Predictions', icon: '🤖', href: '/ai', color: 'from-accent-500 to-yellow-500' },
+    { id: 'trade', label: 'Trade', icon: '💹', href: '/trade', color: 'from-primary-500 to-accent-500' },
     { id: 'settings', label: 'Settings', icon: '⚙️', href: '/settings', color: 'from-gray-500 to-slate-500' },
   ]
 
   return (
-    <aside className="w-64 bg-black/20 backdrop-blur-md border-r border-white/10 text-white min-h-screen relative">
+    <aside className="w-64 bg-secondary-900 backdrop-blur-md border-r border-secondary-800 text-white min-h-screen relative">
       {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-purple-900/20 to-blue-900/20"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-primary-900/20 to-secondary-900/20"></div>
       
       <div className="relative z-10 p-6">
         <div className="mb-8">
-          <h2 className="text-xl font-bold bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent mb-2">
+          <h2 className="text-xl font-bold bg-gradient-to-r from-white to-secondary-200 bg-clip-text text-transparent mb-2">
             Navigation
           </h2>
-          <div className="w-12 h-1 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full"></div>
+          <div className="w-12 h-1 bg-gradient-to-r from-secondary-400 to-accent-500 rounded-full"></div>
         </div>
         
         <nav>
