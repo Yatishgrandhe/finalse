@@ -91,7 +91,7 @@ export default function AISuggestionCard({
       {reasoning && (
         <div className="mt-4 pt-4 border-t border-gray-200">
           <p className="text-sm text-gray-600 italic">
-            "{reasoning}"
+            &ldquo;{reasoning}&rdquo;
           </p>
         </div>
       )}

@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 
 export default function Navbar() {
   const [isProfileOpen, setIsProfileOpen] = useState(false)
@@ -13,10 +14,12 @@ export default function Navbar() {
           {/* Logo */}
           <div className="flex items-center">
             <Link href="/" className="flex-shrink-0 flex items-center space-x-3">
-              <img 
+              <Image 
                 src="/logo.png" 
                 alt="FinAIse Logo" 
-                className="h-8 w-8 object-contain"
+                width={32}
+                height={32}
+                className="object-contain"
               />
               <h1 className="text-2xl font-bold">FinAIse</h1>
             </Link>

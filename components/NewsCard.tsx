@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { News } from '../lib/convex'
 
 interface NewsCardProps {
@@ -45,10 +46,12 @@ export default function NewsCard({ article, onClick }: NewsCardProps) {
           </p>
         </div>
         {article.metadata?.image && (
-          <img 
+          <Image 
             src={article.metadata.image} 
             alt={article.title}
-            className="w-20 h-20 object-cover rounded-lg ml-4"
+            width={80}
+            height={80}
+            className="object-cover rounded-lg ml-4"
           />
         )}
       </div>

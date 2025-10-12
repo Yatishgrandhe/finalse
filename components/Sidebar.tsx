@@ -51,7 +51,7 @@ export default function Sidebar() {
             <span className="text-white font-medium">$125,000</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-blue-200">Today's P&L:</span>
+            <span className="text-blue-200">Today&apos;s P&L:</span>
             <span className="text-green-400 font-medium">+$2,500</span>
           </div>
           <div className="flex justify-between">

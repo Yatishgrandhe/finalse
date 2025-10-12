@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 
 export default function HomePage() {
   return (
@@ -10,10 +11,12 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3">
-              <img 
+              <Image 
                 src="/logo.png" 
                 alt="FinAIse Logo" 
-                className="h-8 w-8 object-contain"
+                width={32}
+                height={32}
+                className="object-contain"
               />
               <h1 className="text-2xl font-bold text-blue-900">FinAIse</h1>
             </div>

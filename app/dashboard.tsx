@@ -48,7 +48,7 @@ export default function Dashboard() {
             </div>
             <div className="bg-white rounded-lg shadow-md p-6">
               <h3 className="text-lg font-semibold text-gray-700 mb-2">
-                Today's Gain/Loss
+                Today&apos;s Gain/Loss
               </h3>
               <p className={`text-3xl font-bold ${todayGainLoss >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                 {todayGainLoss >= 0 ? '+' : ''}${todayGainLoss.toLocaleString()}
