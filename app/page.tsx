@@ -18,7 +18,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
       {/* Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse delay-1000"></div>
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-500 rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-pulse delay-500"></div>
@@ -70,8 +70,8 @@ export default function HomePage() {
       </nav>
 
       {/* Hero Section */}
-      <div className="container mx-auto px-4 pt-24 pb-16">
-        <div className="text-center relative z-10">
+      <div className="container mx-auto px-4 pt-24 pb-16 relative z-10">
+        <div className="text-center">
           <div className="inline-block">
             <h1 className="text-6xl md:text-7xl font-bold text-white mb-6 leading-tight">
               AI-Powered Financial
@@ -104,32 +104,32 @@ export default function HomePage() {
 
           {/* Features Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <div className="group bg-white/10 backdrop-blur-md rounded-2xl p-8 hover:bg-white/20 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/10 border border-white/20 hover:border-white/30">
+            <Link href="/ai" className="group bg-white/10 backdrop-blur-md rounded-2xl p-8 hover:bg-white/20 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/10 border border-white/20 hover:border-white/30 cursor-pointer">
               <div className="text-6xl mb-6 group-hover:scale-110 transition-transform duration-300">🤖</div>
               <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-blue-300 transition-colors">AI Predictions</h3>
               <p className="text-white/70 text-lg leading-relaxed">
                 Get intelligent stock recommendations powered by advanced machine learning algorithms 
                 and real-time market analysis.
               </p>
-            </div>
+            </Link>
             
-            <div className="group bg-white/10 backdrop-blur-md rounded-2xl p-8 hover:bg-white/20 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/10 border border-white/20 hover:border-white/30">
+            <Link href="/portfolio" className="group bg-white/10 backdrop-blur-md rounded-2xl p-8 hover:bg-white/20 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/10 border border-white/20 hover:border-white/30 cursor-pointer">
               <div className="text-6xl mb-6 group-hover:scale-110 transition-transform duration-300">📊</div>
               <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-purple-300 transition-colors">Portfolio Management</h3>
               <p className="text-white/70 text-lg leading-relaxed">
                 Track your investments, analyze performance, and optimize your portfolio 
                 with comprehensive analytics and insights.
               </p>
-            </div>
+            </Link>
             
-            <div className="group bg-white/10 backdrop-blur-md rounded-2xl p-8 hover:bg-white/20 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-pink-500/10 border border-white/20 hover:border-white/30">
+            <Link href="/market" className="group bg-white/10 backdrop-blur-md rounded-2xl p-8 hover:bg-white/20 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-pink-500/10 border border-white/20 hover:border-white/30 cursor-pointer">
               <div className="text-6xl mb-6 group-hover:scale-110 transition-transform duration-300">📈</div>
               <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-pink-300 transition-colors">Real-time Data</h3>
               <p className="text-white/70 text-lg leading-relaxed">
                 Access live market data, news sentiment analysis, and instant notifications 
                 to stay ahead of market movements.
               </p>
-            </div>
+            </Link>
           </div>
         </div>
       </div>
