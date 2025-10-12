@@ -7,11 +7,6 @@
   "env": {
     "NEXT_PUBLIC_CONVEX_URL": "https://brainy-porpoise-50.convex.cloud"
   },
-  "functions": {
-    "app/api/**/*.ts": {
-      "runtime": "nodejs18.x"
-    }
-  },
   "headers": [
     {
       "source": "/(.*)",
