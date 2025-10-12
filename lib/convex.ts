@@ -3,8 +3,12 @@
 import { ConvexReactClient } from "convex/react"
 import { api } from "./convex-api"
 
-// Initialize Convex client
-const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL!)
+// Initialize Convex client conditionally
+let convex: ConvexReactClient | null = null
+
+if (typeof window !== 'undefined' && process.env.NEXT_PUBLIC_CONVEX_URL) {
+  convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL)
+}
 
 export default convex
 
