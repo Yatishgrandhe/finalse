@@ -12,7 +12,7 @@
  */
 
 import { ApiFromModules, FilterApi, FunctionReference } from "convex/server";
-import * as functions from "../functions.js";
+import * as functions from "../functions";
 
 /**
  * A utility for referencing Convex functions in your app's API.

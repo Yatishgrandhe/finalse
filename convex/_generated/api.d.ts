@@ -16,7 +16,7 @@ import type {
   FilterApi,
   FunctionReference,
 } from "convex/server";
-import type * as functions from "../functions.js";
+import type * as functions from "../functions";
 
 /**
  * A utility for referencing Convex functions in your app's API.
