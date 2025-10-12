@@ -105,7 +105,7 @@ export default function Navbar() {
                     </span>
                   </Link>
                   <div className="border-t border-white/20 my-2"></div>
-                  <Link href="/auth" className="block px-4 py-3 text-sm text-red-300 hover:bg-red-500/20 hover:text-red-200 transition-colors duration-300 rounded-lg mx-2">
+                  <Link href="/login" className="block px-4 py-3 text-sm text-red-300 hover:bg-red-500/20 hover:text-red-200 transition-colors duration-300 rounded-lg mx-2">
                     <span className="flex items-center">
                       <span className="mr-2">🚪</span>
                       Sign out
