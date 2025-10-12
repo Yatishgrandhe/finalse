@@ -1,12 +1,6 @@
 'use client'
 
-import { Metadata } from 'next'
 import Link from 'next/link'
-
-export const metadata: Metadata = {
-  title: 'FinAIse - AI Financial Advisor',
-  description: 'Intelligent stock recommendations and portfolio management powered by AI',
-}
 
 export default function HomePage() {
   return (
