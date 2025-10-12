@@ -56,7 +56,7 @@ export default function TermsPage() {
 
               <h2 className="text-2xl font-bold text-white mb-4">Disclaimer</h2>
               <p className="text-white/80 mb-6">
-                The materials on FinAIse are provided on an 'as is' basis. FinAIse makes no warranties, 
+                The materials on FinAIse are provided on an &apos;as is&apos; basis. FinAIse makes no warranties, 
                 expressed or implied, and hereby disclaims and negates all other warranties.
               </p>
 
