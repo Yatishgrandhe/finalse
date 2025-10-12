@@ -5,6 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+// Disable static generation for this page
+export const dynamic = 'force-dynamic';
+
 export default function AuthPage() {
   const router = useRouter();
   const [isSignUp, setIsSignUp] = useState(false);

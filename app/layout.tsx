@@ -7,6 +7,7 @@ import '../styles/globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://finalse.vercel.app'),
   title: 'FinAIse - AI Financial Advisor',
   description: 'Intelligent stock recommendations and portfolio management powered by AI',
   keywords: ['finance', 'AI', 'stocks', 'investing', 'portfolio', 'trading', 'options', 'market analysis'],

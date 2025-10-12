@@ -3,6 +3,9 @@
 import { useState } from 'react'
 import Navbar from '../../components/Navbar'
 import Sidebar from '../../components/Sidebar'
+
+// Disable static generation for this page
+export const dynamic = 'force-dynamic';
 import NewsCard from '../../components/NewsCard'
 import { News } from '../../lib/convex'
 

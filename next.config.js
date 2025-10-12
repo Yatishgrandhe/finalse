@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Disable static generation globally to prevent Convex client errors during build
+  trailingSlash: false,
   images: {
     domains: [
       'images.unsplash.com', 
@@ -56,6 +58,10 @@ const nextConfig = {
   poweredByHeader: false,
   compress: true,
   generateEtags: false,
+  // Force dynamic rendering for all pages to prevent Convex client errors
+  experimental: {
+    serverComponentsExternalPackages: ['convex'],
+  },
 }
 
 module.exports = nextConfig

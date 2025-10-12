@@ -1,4 +1,4 @@
-import { ConvexError, v } from "convex/values";
+import { ConvexError, v } from "./_generated/values";
 import { mutation, query } from "./_generated/server";
 import { getAuthUserId } from "./lib/auth";
 
@@ -288,13 +288,13 @@ export const addHolding = mutation({
       .collect();
 
     const totalValue = holdings.reduce((sum, h) => sum + h.currentValue, 0);
-    const totalCost = holdings.reduce((sum, h) => sum + h.totalCost, 0);
-    const totalGainLoss = totalValue - totalCost;
-    const totalGainLossPercent = totalCost > 0 ? (totalGainLoss / totalCost) * 100 : 0;
+    const portfolioTotalCost = holdings.reduce((sum, h) => sum + h.totalCost, 0);
+    const totalGainLoss = totalValue - portfolioTotalCost;
+    const totalGainLossPercent = portfolioTotalCost > 0 ? (totalGainLoss / portfolioTotalCost) * 100 : 0;
 
     await ctx.db.patch(args.portfolioId, {
       totalValue,
-      totalCost,
+      totalCost: portfolioTotalCost,
       totalGainLoss,
       totalGainLossPercent,
       lastUpdated: Date.now(),
@@ -381,13 +381,13 @@ export const removeHolding = mutation({
       .collect();
 
     const totalValue = holdings.reduce((sum, h) => sum + h.currentValue, 0);
-    const totalCost = holdings.reduce((sum, h) => sum + h.totalCost, 0);
-    const totalGainLoss = totalValue - totalCost;
-    const totalGainLossPercent = totalCost > 0 ? (totalGainLoss / totalCost) * 100 : 0;
+    const portfolioTotalCost = holdings.reduce((sum, h) => sum + h.totalCost, 0);
+    const totalGainLoss = totalValue - portfolioTotalCost;
+    const totalGainLossPercent = portfolioTotalCost > 0 ? (totalGainLoss / portfolioTotalCost) * 100 : 0;
 
     await ctx.db.patch(args.portfolioId, {
       totalValue,
-      totalCost,
+      totalCost: portfolioTotalCost,
       totalGainLoss,
       totalGainLossPercent,
       lastUpdated: Date.now(),

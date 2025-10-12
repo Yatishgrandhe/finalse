@@ -4,6 +4,9 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
 
+// Disable static generation for this page
+export const dynamic = 'force-dynamic';
+
 export default function HomePage() {
   const [isScrolled, setIsScrolled] = useState(false)
 

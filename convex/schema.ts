@@ -1,5 +1,5 @@
-import { defineSchema, defineTable } from "convex/server";
-import { v } from "convex/values";
+import { defineSchema, defineTable } from "./_generated/server";
+import { v } from "./_generated/values";
 
 export default defineSchema({
   users: defineTable({
@@ -139,11 +139,14 @@ export default defineSchema({
     source: v.string(),
     url: v.string(),
     publishedAt: v.number(),
-    symbols: v.array(v.string()),
+    symbols: v.optional(v.array(v.string())), // Make optional to handle existing data
+    stockSymbols: v.optional(v.array(v.string())), // Support existing field name
     sentiment: v.optional(v.string()),
     sentimentScore: v.optional(v.number()),
-    category: v.string(),
-    isHighlighted: v.boolean(),
+    category: v.optional(v.string()), // Make optional to handle existing data
+    isHighlighted: v.optional(v.boolean()), // Make optional to handle existing data
+    relevanceScore: v.optional(v.number()), // Support existing field
+    tags: v.optional(v.array(v.string())), // Support existing field
     metadata: v.optional(v.object({
       author: v.optional(v.string()),
       image: v.optional(v.string()),

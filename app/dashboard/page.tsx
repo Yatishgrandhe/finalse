@@ -10,6 +10,9 @@ import AISuggestionCard from '../../components/AISuggestionCard'
 import { DashboardData, Prediction, News, Stock } from '../../lib/convex'
 import { useAuth } from '../../lib/auth-context'
 
+// Disable static generation for this page
+export const dynamic = 'force-dynamic';
+
 export default function Dashboard() {
   const router = useRouter()
   const { user, isLoading } = useAuth()

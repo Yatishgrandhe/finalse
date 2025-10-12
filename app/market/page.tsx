@@ -4,6 +4,9 @@ import { useState } from 'react'
 import { YahooSearchResult } from '@/lib/yahoo-finance'
 import Navbar from '../../components/Navbar'
 import Sidebar from '../../components/Sidebar'
+
+// Disable static generation for this page
+export const dynamic = 'force-dynamic';
 import StockSearch from '../../components/StockSearch'
 import StockQuote from '../../components/StockQuote'
 import MarketOverview from '../../components/MarketOverview'

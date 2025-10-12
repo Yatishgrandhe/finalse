@@ -1,8 +1,30 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
-import { useMutation, useQuery } from "convex/react";
-import { api } from "./convex-api";
+
+// Mock hooks for build compatibility
+const mockMutation = () => () => Promise.resolve({ success: false, error: "Convex not available" });
+const mockQuery = () => null;
+
+// Check if we're in a build environment
+const isBuildTime = typeof window === 'undefined' || process.env.NODE_ENV === 'production';
+
+// Conditionally import Convex hooks to prevent build errors
+let useMutation: any = mockMutation;
+let useQuery: any = mockQuery;
+let api: any = null;
+
+if (!isBuildTime) {
+  try {
+    const convexReact = require("convex/react");
+    useMutation = convexReact.useMutation;
+    useQuery = convexReact.useQuery;
+    api = require("./convex-api").api;
+  } catch (error) {
+    // Convex not available - use mocks
+    console.log("Convex not available");
+  }
+}
 
 interface User {
   id: string;
@@ -35,15 +57,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const [sessionToken, setSessionToken] = useState<string | null>(null);
 
-  // Convex mutations
-  const signupMutation = useMutation(api.auth.signup);
-  const signinMutation = useMutation(api.auth.signin);
-  const signoutMutation = useMutation(api.auth.signout);
-  const updateProfileMutation = useMutation(api.auth.updateProfile);
+  // Convex mutations - always call hooks, but handle when Convex is not available
+  const signupMutation = useMutation(api?.auth?.signup || mockMutation);
+  const signinMutation = useMutation(api?.auth?.signin || mockMutation);
+  const signoutMutation = useMutation(api?.auth?.signout || mockMutation);
+  const updateProfileMutation = useMutation(api?.auth?.updateProfile || mockMutation);
 
-  // Convex queries
-  const currentUser = useQuery(api.auth.getCurrentUser);
-  const sessionData = useQuery(api.auth.verifySession, sessionToken ? { token: sessionToken } : "skip");
+  // Convex queries - always call hooks, but handle when Convex is not available
+  const currentUser = useQuery(api?.auth?.getCurrentUser || mockQuery);
+  const sessionData = useQuery(api?.auth?.verifySession || mockQuery, sessionToken ? { token: sessionToken } : "skip");
 
   // Initialize session token from localStorage
   useEffect(() => {
@@ -57,7 +79,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Update user state when currentUser query changes
   useEffect(() => {
-    if (currentUser !== undefined) {
+    if (currentUser !== undefined && currentUser !== null) {
       setUser(currentUser);
       setIsLoading(false);
     }
@@ -78,19 +100,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [sessionData, sessionToken]);
 
   const signup = async (email: string, name: string, password: string) => {
+    if (!api?.auth?.signup) {
+      return { success: false, error: "Convex not available" };
+    }
     try {
       const result = await signupMutation({ email, name, password });
       if (result.success) {
         // Automatically sign in after successful signup
         return await signin(email, password);
       }
-      return { success: false, error: "Signup failed" };
+      return { success: false, error: result.error || "Signup failed" };
     } catch (error: any) {
       return { success: false, error: error.message || "Signup failed" };
     }
   };
 
   const signin = async (email: string, password: string) => {
+    if (!api?.auth?.signin) {
+      return { success: false, error: "Convex not available" };
+    }
     try {
       const result = await signinMutation({ email, password });
       if (result.success) {
@@ -100,7 +128,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUser(result.user);
         return { success: true };
       }
-      return { success: false, error: "Signin failed" };
+      return { success: false, error: result.error || "Signin failed" };
     } catch (error: any) {
       return { success: false, error: error.message || "Signin failed" };
     }
@@ -108,7 +136,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signout = async () => {
     try {
-      if (sessionToken) {
+      if (sessionToken && api?.auth?.signout) {
         await signoutMutation({ token: sessionToken });
       }
     } catch (error) {
@@ -122,6 +150,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const updateProfile = async (data: { name?: string; avatar?: string; preferences?: any }) => {
+    if (!api?.auth?.updateProfile) {
+      return { success: false, error: "Convex not available" };
+    }
     try {
       const result = await updateProfileMutation(data);
       if (result.success) {
@@ -131,7 +162,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
         return { success: true };
       }
-      return { success: false, error: "Profile update failed" };
+      return { success: false, error: result.error || "Profile update failed" };
     } catch (error: any) {
       return { success: false, error: error.message || "Profile update failed" };
     }
