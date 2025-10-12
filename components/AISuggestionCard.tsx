@@ -21,89 +21,142 @@ export default function AISuggestionCard({
   reasoning,
   timeframe
 }: AISuggestionCardProps) {
-  const getRecommendationColor = (rec: string) => {
+  const getRecommendationGradient = (rec: string) => {
     switch (rec) {
       case 'BUY':
-        return 'bg-green-100 text-green-800 border-green-200'
+        return 'from-green-500 to-emerald-500'
       case 'SELL':
-        return 'bg-red-100 text-red-800 border-red-200'
+        return 'from-red-500 to-pink-500'
       case 'HOLD':
-        return 'bg-yellow-100 text-yellow-800 border-yellow-200'
+        return 'from-yellow-500 to-orange-500'
       default:
-        return 'bg-gray-100 text-gray-800 border-gray-200'
+        return 'from-gray-500 to-slate-500'
+    }
+  }
+
+  const getRecommendationIcon = (rec: string) => {
+    switch (rec) {
+      case 'BUY':
+        return '📈'
+      case 'SELL':
+        return '📉'
+      case 'HOLD':
+        return '⏸️'
+      default:
+        return '❓'
     }
   }
 
   const getConfidenceColor = (conf: number) => {
-    if (conf >= 80) return 'text-green-600'
-    if (conf >= 60) return 'text-yellow-600'
-    return 'text-red-600'
+    if (conf >= 80) return 'text-green-400'
+    if (conf >= 60) return 'text-yellow-400'
+    return 'text-red-400'
+  }
+
+  const getConfidenceBarColor = (conf: number) => {
+    if (conf >= 80) return 'from-green-500 to-emerald-500'
+    if (conf >= 60) return 'from-yellow-500 to-orange-500'
+    return 'from-red-500 to-pink-500'
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-orange-400 hover:shadow-lg transition-shadow">
-      <div className="flex justify-between items-start mb-4">
-        <div>
-          <h3 className="text-lg font-semibold text-gray-900">{symbol}</h3>
-          <p className="text-2xl font-bold text-gray-900">${price.toFixed(2)}</p>
-        </div>
-        <div className={`px-3 py-1 rounded-full text-sm font-medium border ${getRecommendationColor(recommendation)}`}>
-          {recommendation}
-        </div>
-      </div>
-
-      <div className="space-y-3">
-        <div className="flex justify-between items-center">
-          <span className="text-sm text-gray-600">AI Confidence:</span>
-          <span className={`text-sm font-semibold ${getConfidenceColor(confidence)}`}>
-            {confidence}%
-          </span>
-        </div>
-
-        {change !== undefined && (
-          <div className="flex justify-between items-center">
-            <span className="text-sm text-gray-600">Change:</span>
-            <span className={`text-sm font-semibold ${change >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-              {change >= 0 ? '+' : ''}{change.toFixed(2)}%
+    <div className="group bg-white/10 backdrop-blur-md rounded-2xl p-6 hover:bg-white/20 transition-all duration-300 hover:scale-105 border border-white/20 hover:border-white/30 relative overflow-hidden">
+      {/* AI Glow Effect */}
+      <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+      
+      <div className="relative z-10">
+        {/* Header */}
+        <div className="flex justify-between items-start mb-6">
+          <div>
+            <div className="flex items-center space-x-2 mb-2">
+              <span className="text-2xl">🤖</span>
+              <h3 className="text-lg font-bold text-white group-hover:text-orange-300 transition-colors">{symbol}</h3>
+            </div>
+            <p className="text-2xl font-bold text-white group-hover:text-blue-200 transition-colors">
+              ${price.toFixed(2)}
+            </p>
+          </div>
+          <div className={`px-4 py-2 rounded-full text-sm font-bold bg-gradient-to-r ${getRecommendationGradient(recommendation)} text-white shadow-lg relative overflow-hidden`}>
+            <span className="relative z-10 flex items-center">
+              <span className="mr-1">{getRecommendationIcon(recommendation)}</span>
+              {recommendation}
             </span>
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 transform translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
+          </div>
+        </div>
+
+        {/* AI Confidence Bar */}
+        <div className="mb-4">
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-sm text-white/60 group-hover:text-white/80 transition-colors">AI Confidence:</span>
+            <span className={`text-sm font-bold ${getConfidenceColor(confidence)}`}>
+              {confidence}%
+            </span>
+          </div>
+          <div className="w-full bg-white/20 rounded-full h-2 overflow-hidden">
+            <div 
+              className={`h-full bg-gradient-to-r ${getConfidenceBarColor(confidence)} transition-all duration-1000 ease-out`}
+              style={{ width: `${confidence}%` }}
+            ></div>
+          </div>
+        </div>
+
+        {/* Details Grid */}
+        <div className="space-y-3 mb-4">
+          {change !== undefined && (
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-white/60 group-hover:text-white/80 transition-colors">Change:</span>
+              <span className={`text-sm font-bold flex items-center ${
+                change >= 0 ? 'text-green-400 group-hover:text-green-300' : 'text-red-400 group-hover:text-red-300'
+              } transition-colors`}>
+                <span className="mr-1">{change >= 0 ? '↗' : '↘'}</span>
+                {change >= 0 ? '+' : ''}{change.toFixed(2)}%
+              </span>
+            </div>
+          )}
+
+          {target && (
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-white/60 group-hover:text-white/80 transition-colors">Target Price:</span>
+              <span className="text-sm font-bold text-blue-400 group-hover:text-blue-300 transition-colors">
+                ${target.toFixed(2)}
+              </span>
+            </div>
+          )}
+
+          {timeframe && (
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-white/60 group-hover:text-white/80 transition-colors">Timeframe:</span>
+              <span className="text-sm font-bold text-white group-hover:text-blue-300 transition-colors">
+                {timeframe}
+              </span>
+            </div>
+          )}
+        </div>
+
+        {/* AI Reasoning */}
+        {reasoning && (
+          <div className="mt-4 pt-4 border-t border-white/20">
+            <div className="bg-gradient-to-r from-orange-500/10 to-pink-500/10 rounded-xl p-3">
+              <p className="text-sm text-white/80 italic leading-relaxed">
+                &ldquo;{reasoning}&rdquo;
+              </p>
+            </div>
           </div>
         )}
 
-        {target && (
-          <div className="flex justify-between items-center">
-            <span className="text-sm text-gray-600">Target Price:</span>
-            <span className="text-sm font-semibold text-blue-600">
-              ${target.toFixed(2)}
-            </span>
+        {/* Action Buttons */}
+        <div className="mt-6 pt-4 border-t border-white/20">
+          <div className="flex gap-3">
+            <button className="flex-1 bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white font-bold py-3 px-4 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-orange-500/25 relative overflow-hidden group">
+              <span className="relative z-10">View Analysis</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 transform translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
+            </button>
+            <button className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-3 px-4 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/25 relative overflow-hidden group">
+              <span className="relative z-10">Trade</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 transform translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
+            </button>
           </div>
-        )}
-
-        {timeframe && (
-          <div className="flex justify-between items-center">
-            <span className="text-sm text-gray-600">Timeframe:</span>
-            <span className="text-sm font-semibold text-gray-900">
-              {timeframe}
-            </span>
-          </div>
-        )}
-      </div>
-
-      {reasoning && (
-        <div className="mt-4 pt-4 border-t border-gray-200">
-          <p className="text-sm text-gray-600 italic">
-            &ldquo;{reasoning}&rdquo;
-          </p>
-        </div>
-      )}
-
-      <div className="mt-4 pt-4 border-t border-gray-200">
-        <div className="flex gap-2">
-          <button className="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 px-4 rounded-lg transition-colors">
-            View Analysis
-          </button>
-          <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors">
-            Trade
-          </button>
         </div>
       </div>
     </div>
