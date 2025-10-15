@@ -5,7 +5,8 @@
   "installCommand": "npm install",
   "devCommand": "npm run dev",
   "env": {
-    "NEXT_PUBLIC_CONVEX_URL": "https://brainy-porpoise-50.convex.cloud"
+    "NEXT_PUBLIC_SUPABASE_URL": "https://fjzkpunuonshouhmqfzs.supabase.co",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqemtwdW51b25zaG91aG1xZnpzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA0OTIyNzEsImV4cCI6MjA3NjA2ODI3MX0.f9hrW4uZlz6S0-Gogq20sLLiN6iwRj81Q4COnDnEF2s"
   },
   "headers": [
     {

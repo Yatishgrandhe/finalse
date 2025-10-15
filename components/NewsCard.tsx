@@ -1,7 +1,20 @@
 'use client'
 
 import Image from 'next/image'
-import { News } from '../lib/convex'
+interface News {
+  id: string
+  title: string
+  content: string
+  summary: string
+  url: string
+  source: string
+  published_at: string
+  stock_symbols: string[]
+  sentiment: string
+  relevance_score: number
+  tags: string[]
+  isHighlighted?: boolean
+}
 
 interface NewsCardProps {
   article: News
@@ -42,24 +55,16 @@ export default function NewsCard({ article, onClick }: NewsCardProps) {
             {article.title}
           </h3>
           <p className="text-sm text-gray-600 mb-3 line-clamp-3">
-            {article.summary || article.content.substring(0, 200)}...
+            {article.summary.substring(0, 200)}...
           </p>
         </div>
-        {article.metadata?.image && (
-          <Image 
-            src={article.metadata.image} 
-            alt={article.title}
-            width={80}
-            height={80}
-            className="object-cover rounded-lg ml-4"
-          />
-        )}
+        {/* Image placeholder - can be added later if needed */}
       </div>
 
       <div className="flex items-center justify-between text-sm text-gray-500 mb-3">
         <div className="flex items-center space-x-4">
           <span className="font-medium">{article.source}</span>
-          <span>{formatDate(article.publishedAt)}</span>
+          <span>{new Date(article.published_at).toLocaleDateString()}</span>
         </div>
         {article.sentiment && (
           <span className={`px-2 py-1 rounded-full text-xs font-medium ${getSentimentColor(article.sentiment)}`}>
@@ -68,10 +73,10 @@ export default function NewsCard({ article, onClick }: NewsCardProps) {
         )}
       </div>
 
-      {article.symbols && article.symbols.length > 0 && (
+      {article.stock_symbols && article.stock_symbols.length > 0 && (
         <div className="mb-3">
           <div className="flex flex-wrap gap-1">
-            {article.symbols.slice(0, 5).map((symbol) => (
+            {article.stock_symbols.slice(0, 5).map((symbol) => (
               <span 
                 key={symbol}
                 className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full font-medium"
@@ -79,18 +84,18 @@ export default function NewsCard({ article, onClick }: NewsCardProps) {
                 {symbol}
               </span>
             ))}
-            {article.symbols.length > 5 && (
+            {article.stock_symbols.length > 5 && (
               <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">
-                +{article.symbols.length - 5} more
+                +{article.stock_symbols.length - 5} more
               </span>
             )}
           </div>
         </div>
       )}
 
-      {article.metadata?.tags && article.metadata.tags.length > 0 && (
+      {article.tags && article.tags.length > 0 && (
         <div className="flex flex-wrap gap-1 mb-3">
-          {article.metadata.tags.slice(0, 3).map((tag) => (
+          {article.tags.slice(0, 3).map((tag) => (
             <span 
               key={tag}
               className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full"
@@ -108,9 +113,9 @@ export default function NewsCard({ article, onClick }: NewsCardProps) {
               AI Highlighted
             </span>
           )}
-          {article.sentimentScore && (
+          {article.relevance_score && (
             <span className="text-xs text-gray-500">
-              Sentiment: {(article.sentimentScore * 100).toFixed(0)}%
+              Relevance: {(article.relevance_score * 100).toFixed(0)}%
             </span>
           )}
         </div>

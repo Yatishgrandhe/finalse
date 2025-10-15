@@ -1,5 +1,6 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { YahooQuote, YahooHistoricalData, YahooSearchResult, YahooNewsItem } from '@/lib/yahoo-finance';
+import { yahooFinanceCache } from '@/lib/yahoo-finance-cache';
 
 // Custom hook for Yahoo Finance API calls
 export function useYahooFinance() {
@@ -11,15 +12,26 @@ export function useYahooFinance() {
     setError(null);
   }, []);
 
-  // Generic API call wrapper
-  const apiCall = useCallback(async <T>(
+  // Generic API call wrapper - using useRef to make it stable and cache
+  const apiCallRef = useRef(async <T>(
     url: string,
-    options: RequestInit = {}
+    options: RequestInit = {},
+    ttl: number = 5 * 60 * 1000 // 5 minutes default TTL
   ): Promise<T | null> => {
     try {
       setLoading(true);
       setError(null);
 
+      // Use cache for GET requests
+      if (!options.method || options.method === 'GET') {
+        const cachedData = await yahooFinanceCache.get<T>(url, ttl);
+        if (cachedData !== null) {
+          setLoading(false);
+          return cachedData;
+        }
+      }
+
+      // If not cached or not a GET request, make the actual API call
       const response = await fetch(url, {
         headers: {
           'Content-Type': 'application/json',
@@ -47,13 +59,13 @@ export function useYahooFinance() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  });
 
   return {
     loading,
     error,
     clearError,
-    apiCall,
+    apiCall: apiCallRef.current,
   };
 }
 
@@ -61,21 +73,38 @@ export function useYahooFinance() {
 export function useStockQuotes(symbols: string[]) {
   const { loading, error, clearError, apiCall } = useYahooFinance();
   const [quotes, setQuotes] = useState<YahooQuote[]>([]);
+  const [lastSymbols, setLastSymbols] = useState<string>('');
+  const [isFetching, setIsFetching] = useState(false);
 
   const fetchQuotes = useCallback(async () => {
-    if (symbols.length === 0) return;
+    if (symbols.length === 0 || isFetching) return;
 
-    const symbolsParam = symbols.join(',');
-    const data = await apiCall<YahooQuote[]>(`/api/stocks?symbols=${symbolsParam}`);
-    
-    if (data) {
-      setQuotes(data);
+    setIsFetching(true);
+    try {
+      const symbolsParam = symbols.join(',');
+      // Use 2 minute TTL for stock quotes
+      const data = await apiCall<YahooQuote[]>(`/api/stocks?symbols=${symbolsParam}`, {}, 2 * 60 * 1000);
+      
+      if (data) {
+        setQuotes(data);
+      }
+    } finally {
+      setIsFetching(false);
     }
-  }, [symbols, apiCall]);
+  }, [symbols.join(','), apiCall, isFetching]);
 
   useEffect(() => {
-    fetchQuotes();
-  }, [fetchQuotes]);
+    const symbolsParam = symbols.join(',');
+    if (symbolsParam !== lastSymbols && !isFetching) {
+      setLastSymbols(symbolsParam);
+      // Add a small delay to prevent rapid successive calls
+      const timeoutId = setTimeout(() => {
+        fetchQuotes();
+      }, 100);
+      
+      return () => clearTimeout(timeoutId);
+    }
+  }, [symbols, fetchQuotes, lastSymbols, isFetching]);
 
   return {
     quotes,
@@ -90,20 +119,36 @@ export function useStockQuotes(symbols: string[]) {
 export function useStockQuote(symbol: string) {
   const { loading, error, clearError, apiCall } = useYahooFinance();
   const [quote, setQuote] = useState<YahooQuote | null>(null);
+  const [lastSymbol, setLastSymbol] = useState<string>('');
+  const [isFetching, setIsFetching] = useState(false);
 
   const fetchQuote = useCallback(async () => {
-    if (!symbol) return;
+    if (!symbol || isFetching) return;
 
-    const data = await apiCall<YahooQuote[]>(`/api/stocks?symbol=${symbol}`);
-    
-    if (data && data.length > 0) {
-      setQuote(data[0]);
+    setIsFetching(true);
+    try {
+      // Use 2 minute TTL for single stock quotes
+      const data = await apiCall<YahooQuote[]>(`/api/stocks?symbol=${symbol}`, {}, 2 * 60 * 1000);
+      
+      if (data && data.length > 0) {
+        setQuote(data[0]);
+      }
+    } finally {
+      setIsFetching(false);
     }
-  }, [symbol, apiCall]);
+  }, [symbol, apiCall, isFetching]);
 
   useEffect(() => {
-    fetchQuote();
-  }, [fetchQuote]);
+    if (symbol !== lastSymbol && !isFetching) {
+      setLastSymbol(symbol);
+      // Add a small delay to prevent rapid successive calls
+      const timeoutId = setTimeout(() => {
+        fetchQuote();
+      }, 100);
+      
+      return () => clearTimeout(timeoutId);
+    }
+  }, [symbol, fetchQuote, lastSymbol, isFetching]);
 
   return {
     quote,
@@ -276,17 +321,17 @@ export function useMarketSummary() {
 
 // Hook for popular symbols
 export function usePopularSymbols() {
-  const symbols = [
+  const symbols = useMemo(() => [
     'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'META', 'NVDA', 'NFLX',
     'AMD', 'INTC', 'CRM', 'ADBE', 'PYPL', 'UBER', 'SQ', 'ROKU'
-  ];
+  ], []);
 
   return useStockQuotes(symbols);
 }
 
 // Hook for sector symbols
 export function useSectorSymbols(sector: string) {
-  const sectorSymbols: { [key: string]: string[] } = {
+  const sectorSymbols = useMemo(() => ({
     'Technology': ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'META', 'NVDA', 'NFLX', 'AMD', 'INTC'],
     'Healthcare': ['JNJ', 'PFE', 'UNH', 'ABBV', 'MRK', 'TMO', 'ABT', 'DHR', 'BMY'],
     'Financial': ['JPM', 'BAC', 'WFC', 'GS', 'MS', 'C', 'AXP', 'V', 'MA'],
@@ -297,8 +342,8 @@ export function useSectorSymbols(sector: string) {
     'Materials': ['LIN', 'APD', 'SHW', 'ECL', 'DD', 'DOW', 'FCX', 'NEM'],
     'Real Estate': ['AMT', 'PLD', 'CCI', 'EQIX', 'PSA', 'O', 'SPG', 'WELL'],
     'Utilities': ['NEE', 'DUK', 'SO', 'AEP', 'EXC', 'XEL', 'PEG', 'WEC']
-  };
+  }), []);
 
-  const symbols = sectorSymbols[sector] || [];
+  const symbols = useMemo(() => (sectorSymbols as any)[sector] || [], [sector, sectorSymbols]);
   return useStockQuotes(symbols);
 }

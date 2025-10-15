@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Disable static generation globally to prevent Convex client errors during build
+  // Optimized for Supabase integration
   trailingSlash: false,
   images: {
     domains: [
@@ -18,7 +18,8 @@ const nextConfig = {
     ],
   },
   env: {
-    NEXT_PUBLIC_CONVEX_URL: process.env.NEXT_PUBLIC_CONVEX_URL,
+    NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     NEXT_PUBLIC_AI_API_URL: process.env.NEXT_PUBLIC_AI_API_URL,
   },
   async headers() {
@@ -58,10 +59,8 @@ const nextConfig = {
   poweredByHeader: false,
   compress: true,
   generateEtags: false,
-  // Force dynamic rendering for all pages to prevent Convex client errors
-  experimental: {
-    serverComponentsExternalPackages: ['convex'],
-  },
+  // Optimize for Supabase
+  serverExternalPackages: ['@supabase/supabase-js'],
 }
 
 module.exports = nextConfig

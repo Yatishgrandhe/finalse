@@ -1,151 +1,139 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import Navbar from '../../components/Navbar'
-import Sidebar from '../../components/Sidebar'
+import { useState } from 'react'
+import AuthGuard from '../../components/AuthGuard'
+import TopNavbar from '../../components/TopNavbar'
+import CollapsibleSidebar from '../../components/CollapsibleSidebar'
+import AISuggestionCard from '../../components/AISuggestionCard'
+import TradingInterface from '../../components/TradingInterface'
+import BrokerConnection from '../../components/BrokerConnection'
+import { useAuth } from '../../lib/auth-context-supabase'
 
 // Disable static generation for this page
 export const dynamic = 'force-dynamic';
-import AISuggestionCard from '../../components/AISuggestionCard'
 
 export default function Trade() {
-  const [searchSymbol, setSearchSymbol] = useState('')
-  const [selectedStock, setSelectedStock] = useState(null)
-  const [aiRecommendations, setAiRecommendations] = useState<any[]>([])
+  const { user } = useAuth()
+  const [selectedSymbol, setSelectedSymbol] = useState('AAPL')
 
-  useEffect(() => {
-    // TODO: Fetch AI recommendations from Convex
-    const mockRecommendations = [
-      { symbol: 'AAPL', recommendation: 'BUY', confidence: 85, price: 150.25, target: 165.00 },
-      { symbol: 'GOOGL', recommendation: 'HOLD', confidence: 72, price: 2750.80, target: 2800.00 },
-      { symbol: 'TSLA', recommendation: 'SELL', confidence: 68, price: 245.60, target: 220.00 },
-      { symbol: 'MSFT', recommendation: 'BUY', confidence: 78, price: 350.20, target: 375.00 },
-      { symbol: 'AMZN', recommendation: 'BUY', confidence: 82, price: 3200.50, target: 3400.00 },
-    ]
-    setAiRecommendations(mockRecommendations)
-  }, [])
+  // Mock AI recommendations
+  const mockPredictions = [
+    {
+      id: '1',
+      symbol: 'AAPL',
+      recommendation: 'BUY' as const,
+      confidence: 85,
+      price: 175.50,
+      target: 180.00,
+      reasoning: 'Strong fundamentals and positive market sentiment'
+    },
+    {
+      id: '2',
+      symbol: 'GOOGL',
+      recommendation: 'HOLD' as const,
+      confidence: 72,
+      price: 2750.80,
+      target: 2800.00,
+      reasoning: 'Stable performance with moderate growth potential'
+    },
+    {
+      id: '3',
+      symbol: 'TSLA',
+      recommendation: 'SELL' as const,
+      confidence: 68,
+      price: 245.60,
+      target: 220.00,
+      reasoning: 'Market volatility and regulatory concerns'
+    }
+  ]
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault()
-    // TODO: Implement stock search
-    console.log('Searching for:', searchSymbol)
+  const handleTrade = (order: any) => {
+    console.log('Trade order:', order)
+    // Handle trade execution
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navbar />
-      <div className="flex">
-        <Sidebar />
-        <main className="flex-1 p-6">
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
-              Trading & Recommendations
-            </h1>
-            <p className="text-gray-600">
-              AI-powered trading insights and recommendations
-            </p>
-          </div>
+    <AuthGuard>
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden">
+        {/* Animated Background */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-5 animate-pulse"></div>
+          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-5 animate-pulse delay-1000"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-500 rounded-full mix-blend-multiply filter blur-xl opacity-3 animate-pulse delay-500"></div>
+        </div>
 
-          {/* Search Section */}
-          <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-            <h3 className="text-lg font-semibold text-gray-700 mb-4">
-              Search Stocks
-            </h3>
-            <form onSubmit={handleSearch} className="flex gap-4">
-              <input
-                type="text"
-                value={searchSymbol}
-                onChange={(e) => setSearchSymbol(e.target.value)}
-                placeholder="Enter stock symbol (e.g., AAPL)"
-                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <button
-                type="submit"
-                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg"
-              >
-                Search
-              </button>
-            </form>
-          </div>
-
-          {/* AI Recommendations */}
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h3 className="text-lg font-semibold text-gray-700 mb-4">
-              AI Recommendations
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {aiRecommendations.map((rec, index) => (
-                <AISuggestionCard
-                  key={index}
-                  symbol={rec.symbol}
-                  recommendation={rec.recommendation}
-                  confidence={rec.confidence}
-                  price={rec.price}
-                  target={rec.target}
-                />
-              ))}
+        <TopNavbar />
+        <div className="flex relative z-10">
+          <CollapsibleSidebar />
+          <main className="flex-1 p-6">
+            {/* Header */}
+            <div className="mb-8">
+              <h1 className="text-4xl font-bold text-white mb-2">Trading</h1>
+              <p className="text-white/60 text-lg">Execute trades with AI-powered insights</p>
             </div>
-          </div>
 
-          {/* Trading Interface */}
-          <div className="bg-white rounded-lg shadow-md p-6 mt-8">
-            <h3 className="text-lg font-semibold text-gray-700 mb-4">
-              Trading Interface
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Stock Symbol
-                </label>
-                <input
-                  type="text"
-                  placeholder="AAPL"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Trading Interface */}
+              <div className="lg:col-span-2">
+                <div className="bg-slate-800/50 backdrop-blur-md rounded-2xl p-6 border border-slate-700/50 mb-6">
+                  <h2 className="text-2xl font-bold text-white mb-6">Trade Execution</h2>
+                  <TradingInterface 
+                    symbol={selectedSymbol}
+                    onTrade={handleTrade}
+                  />
+                </div>
+
+                {/* Broker Connection */}
+                <div className="bg-slate-800/50 backdrop-blur-md rounded-2xl p-6 border border-slate-700/50">
+                  <h2 className="text-2xl font-bold text-white mb-6">Broker Connection</h2>
+                  <BrokerConnection />
+                </div>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Order Type
-                </label>
-                <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                  <option>Market Order</option>
-                  <option>Limit Order</option>
-                  <option>Stop Order</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Quantity
-                </label>
-                <input
-                  type="number"
-                  placeholder="100"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Price (for Limit Orders)
-                </label>
-                <input
-                  type="number"
-                  step="0.01"
-                  placeholder="150.00"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+
+              {/* AI Recommendations */}
+              <div className="space-y-6">
+                <div className="bg-slate-800/50 backdrop-blur-md rounded-2xl p-6 border border-slate-700/50">
+                  <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-2xl font-bold text-white">AI Recommendations</h2>
+                    <div className="w-10 h-10 bg-gradient-to-r from-orange-500 to-pink-500 rounded-lg flex items-center justify-center">
+                      <span className="text-white text-lg">🤖</span>
+                    </div>
+                  </div>
+                  <div className="space-y-4">
+                    {mockPredictions.map((prediction) => (
+                      <AISuggestionCard
+                        key={prediction.id}
+                        symbol={prediction.symbol}
+                        recommendation={prediction.recommendation}
+                        confidence={prediction.confidence}
+                        price={prediction.price}
+                        target={prediction.target}
+                        reasoning={prediction.reasoning}
+                      />
+                    ))}
+                  </div>
+                </div>
+
+                {/* Quick Actions */}
+                <div className="bg-slate-800/50 backdrop-blur-md rounded-2xl p-6 border border-slate-700/50">
+                  <h3 className="text-xl font-bold text-white mb-4">Quick Actions</h3>
+                  <div className="space-y-3">
+                    <button className="w-full bg-green-600/20 hover:bg-green-600/30 text-green-400 py-2 px-4 rounded-lg transition-colors">
+                      Market Buy
+                    </button>
+                    <button className="w-full bg-red-600/20 hover:bg-red-600/30 text-red-400 py-2 px-4 rounded-lg transition-colors">
+                      Market Sell
+                    </button>
+                    <button className="w-full bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 py-2 px-4 rounded-lg transition-colors">
+                      Limit Order
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="mt-6 flex gap-4">
-              <button className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg">
-                Buy
-              </button>
-              <button className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg">
-                Sell
-              </button>
-            </div>
-          </div>
-        </main>
+          </main>
+        </div>
       </div>
-    </div>
+    </AuthGuard>
   )
 }

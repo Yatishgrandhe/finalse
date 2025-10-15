@@ -1,6 +1,6 @@
 # FinAIse Web Application
 
-AI-powered financial advisor platform built with Next.js, TypeScript, and Convex.
+AI-powered financial advisor platform built with Next.js, TypeScript, and Supabase.
 
 ## 🚀 Features
 
@@ -9,13 +9,13 @@ AI-powered financial advisor platform built with Next.js, TypeScript, and Convex
 - **Real-time Market Data**: Live stock prices and market insights
 - **News Integration**: Financial news with sentiment analysis
 - **Responsive Design**: Optimized for desktop and mobile devices
-- **Real-time Updates**: Powered by Convex for instant data synchronization
+- **Real-time Updates**: Powered by Supabase for instant data synchronization
 
 ## 🛠️ Tech Stack
 
 - **Frontend**: Next.js 14, React 18, TypeScript
 - **Styling**: Tailwind CSS, Custom CSS
-- **Backend**: Convex (Real-time database)
+- **Backend**: Supabase (Real-time database)
 - **Charts**: Recharts, Chart.js
 - **Authentication**: Custom auth with OAuth2 support
 - **Deployment**: Vercel
@@ -26,7 +26,7 @@ AI-powered financial advisor platform built with Next.js, TypeScript, and Convex
 
 - Node.js 18+ 
 - npm or yarn
-- Convex account
+- Supabase account
 
 ### Setup
 
@@ -48,7 +48,8 @@ AI-powered financial advisor platform built with Next.js, TypeScript, and Convex
    
    Update `.env.local` with your values:
    ```env
-   NEXT_PUBLIC_CONVEX_URL=https://your-convex-deployment.convex.cloud
+   NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
    NEXT_PUBLIC_YAHOO_FINANCE_API_KEY=your_api_key
    NEXT_PUBLIC_HUGGING_FACE_API_KEY=your_api_key
    ```
@@ -150,7 +151,8 @@ The application uses Convex with the following main collections:
 
 2. **Configure Environment Variables**
    ```env
-   NEXT_PUBLIC_CONVEX_URL=https://your-convex-deployment.convex.cloud
+   NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
    ```
 
 3. **Deploy**

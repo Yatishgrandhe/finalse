@@ -26,15 +26,16 @@
 - [ ] `vercel.json` deployment settings
 
 ### ✅ Environment Variables
-- [ ] `NEXT_PUBLIC_CONVEX_URL` set correctly
+- [ ] `NEXT_PUBLIC_SUPABASE_URL` set correctly
+- [ ] `NEXT_PUBLIC_SUPABASE_ANON_KEY` set correctly
 - [ ] `NEXT_PUBLIC_YAHOO_FINANCE_API_KEY` configured
 - [ ] `NEXT_PUBLIC_HUGGING_FACE_API_KEY` configured
 - [ ] No sensitive data in environment variables
 - [ ] Environment variables documented
 
 ### ✅ Database Integration
-- [ ] Convex schema deployed
-- [ ] Convex functions working
+- [ ] Supabase database schema deployed
+- [ ] Supabase functions working
 - [ ] Sample data inserted for testing
 - [ ] Database queries optimized
 - [ ] Error handling implemented
@@ -72,7 +73,8 @@
 
 ### 3. Environment Variables
 ```env
-NEXT_PUBLIC_CONVEX_URL=https://brainy-porpoise-50.convex.cloud
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
 NEXT_PUBLIC_YAHOO_FINANCE_API_KEY=your_api_key_here
 NEXT_PUBLIC_HUGGING_FACE_API_KEY=your_api_key_here
 ```
@@ -95,7 +97,7 @@ NEXT_PUBLIC_HUGGING_FACE_API_KEY=your_api_key_here
 - [ ] Navigation between pages works
 
 ### ✅ Database Tests
-- [ ] Convex connection established
+- [ ] Supabase connection established
 - [ ] Stock data loads from database
 - [ ] Predictions display correctly
 - [ ] News articles fetch properly

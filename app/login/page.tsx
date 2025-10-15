@@ -1,16 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useAuth } from "../../lib/auth-context";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useAuth } from "../../lib/auth-context-supabase";
 
 // Disable static generation for this page
 export const dynamic = 'force-dynamic';
 
-export default function LoginPage() {
+function LoginPageInner() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { signin, isLoading } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,8 +26,9 @@ export default function LoginPage() {
     try {
       const result = await signin(email, password);
       if (result.success) {
-        // Redirect to dashboard after successful authentication
-        router.push('/dashboard');
+        // Redirect to the original URL or dashboard after successful authentication
+        const redirectUrl = searchParams.get('redirect') || '/dashboard';
+        router.push(redirectUrl);
       } else {
         setError(result.error || "Sign in failed");
       }
@@ -210,5 +212,27 @@ export default function LoginPage() {
         </form>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-900 via-secondary-900 to-primary-800 relative overflow-hidden">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-secondary-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
+          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-accent-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse delay-1000"></div>
+        </div>
+        <div className="relative z-10 text-center">
+          <div className="w-32 h-32 bg-gradient-to-r from-secondary-500 to-accent-500 rounded-full flex items-center justify-center mb-8 mx-auto animate-pulse">
+            <Image src="/logo.png" alt="FinAIse Logo" width={64} height={64} className="object-contain" />
+          </div>
+          <h2 className="text-2xl font-bold text-white mb-4">Loading...</h2>
+          <div className="w-8 h-8 border-4 border-white/30 border-t-white rounded-full animate-spin mx-auto"></div>
+        </div>
+      </div>
+    }>
+      <LoginPageInner />
+    </Suspense>
   );
 }

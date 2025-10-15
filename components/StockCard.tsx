@@ -1,5 +1,7 @@
 'use client'
 
+import BookmarkButton from './BookmarkButton'
+
 interface StockCardProps {
   symbol: string
   name?: string
@@ -9,9 +11,10 @@ interface StockCardProps {
   marketCap?: number
   value?: number
   shares?: number
+  showBookmark?: boolean
 }
 
-export default function StockCard({ symbol, name, price, change, changePercent, marketCap, value, shares }: StockCardProps) {
+export default function StockCard({ symbol, name, price, change, changePercent, marketCap, value, shares, showBookmark = true }: StockCardProps) {
   const isPositive = change >= 0
   const changePercentage = changePercent || (change / price) * 100
 
@@ -23,7 +26,16 @@ export default function StockCard({ symbol, name, price, change, changePercent, 
       <div className="relative z-10">
         <div className="flex justify-between items-start mb-4">
           <div>
-            <h3 className="text-lg font-bold text-white group-hover:text-blue-300 transition-colors">{symbol}</h3>
+            <div className="flex items-center space-x-2">
+              <h3 className="text-lg font-bold text-white group-hover:text-blue-300 transition-colors">{symbol}</h3>
+              {showBookmark && (
+                <BookmarkButton 
+                  stockSymbol={symbol} 
+                  stockName={name || symbol}
+                  className="opacity-0 group-hover:opacity-100 transition-opacity"
+                />
+              )}
+            </div>
             {name && (
               <p className="text-sm text-white/60 group-hover:text-white/80 transition-colors">{name}</p>
             )}

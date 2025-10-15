@@ -6,7 +6,7 @@ export default function PredictionChart() {
   const [chartData, setChartData] = useState<any[]>([])
 
   useEffect(() => {
-    // TODO: Fetch real chart data from Convex
+    // TODO: Fetch real chart data from Supabase
     const mockData = [
       { date: '2024-01-01', price: 150.00, prediction: 155.00 },
       { date: '2024-01-02', price: 152.50, prediction: 157.00 },

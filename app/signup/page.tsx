@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useAuth } from "../../lib/auth-context";
+import { useAuth } from "../../lib/auth-context-supabase";
 
 // Disable static generation for this page
 export const dynamic = 'force-dynamic';

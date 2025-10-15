@@ -81,24 +81,46 @@ export class YahooFinanceService {
       return this.formatQuote(result);
     } catch (error) {
       console.error(`Error fetching quote for ${symbol}:`, error);
+      
+      // Handle rate limiting and API errors gracefully
+      if (error instanceof Error) {
+        if (error.message.includes('Edge: Too') || error.message.includes('rate limit')) {
+          console.warn(`Rate limited for ${symbol}, returning null`);
+          return null;
+        }
+        if (error.message.includes('Invalid symbol') || error.message.includes('Not found')) {
+          console.warn(`Invalid symbol ${symbol}`);
+          return null;
+        }
+      }
+      
       return null;
     }
   }
 
   /**
-   * Get real-time quotes for multiple symbols
+   * Get real-time quotes for multiple symbols with rate limiting
    */
   async getQuotes(symbols: string[]): Promise<YahooQuote[]> {
     try {
-      const results = await Promise.allSettled(
-        symbols.map(symbol => this.getQuote(symbol))
-      );
+      // Add delay between requests to avoid rate limiting
+      const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+      const results: YahooQuote[] = [];
       
-      return results
-        .filter((result): result is PromiseFulfilledResult<YahooQuote> => 
-          result.status === 'fulfilled' && result.value !== null
-        )
-        .map(result => result.value);
+      for (let i = 0; i < symbols.length; i++) {
+        const symbol = symbols[i];
+        const quote = await this.getQuote(symbol);
+        if (quote) {
+          results.push(quote);
+        }
+        
+        // Add delay between requests (except for the last one)
+        if (i < symbols.length - 1) {
+          await delay(100); // 100ms delay between requests
+        }
+      }
+      
+      return results;
     } catch (error) {
       console.error('Error fetching multiple quotes:', error);
       return [];

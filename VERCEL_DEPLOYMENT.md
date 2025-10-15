@@ -4,7 +4,7 @@
 
 1. **Vercel Account**: Sign up at [vercel.com](https://vercel.com)
 2. **GitHub Repository**: Push your code to GitHub
-3. **Convex Database**: Already deployed and configured
+3. **Supabase Database**: Already deployed and configured
 
 ## Deployment Steps
 
@@ -20,7 +20,8 @@
 In your Vercel project settings, add these environment variables:
 
 ```env
-NEXT_PUBLIC_CONVEX_URL=https://brainy-porpoise-50.convex.cloud
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
 NEXT_PUBLIC_YAHOO_FINANCE_API_KEY=your_yahoo_finance_api_key
 NEXT_PUBLIC_HUGGING_FACE_API_KEY=your_hugging_face_api_key
 ```
@@ -83,20 +84,20 @@ npm run build
 
 #### 2. Environment Variables Not Working
 
-**Error**: `NEXT_PUBLIC_CONVEX_URL is undefined`
+**Error**: `NEXT_PUBLIC_SUPABASE_URL is undefined`
 
 **Solution**:
 - Verify environment variables in Vercel dashboard
 - Ensure variable names start with `NEXT_PUBLIC_`
 - Redeploy after adding variables
 
-#### 3. Convex Connection Issues
+#### 3. Supabase Connection Issues
 
-**Error**: `Failed to connect to Convex`
+**Error**: `Failed to connect to Supabase`
 
 **Solution**:
-- Verify `NEXT_PUBLIC_CONVEX_URL` is correct
-- Check Convex deployment status
+- Verify `NEXT_PUBLIC_SUPABASE_URL` is correct
+- Check Supabase project status
 - Ensure CORS settings allow your domain
 
 #### 4. Image Loading Issues

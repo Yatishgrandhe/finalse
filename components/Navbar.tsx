@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useAuth } from '../lib/auth-context'
+import { useAuth } from '../lib/auth-context-supabase'
 
 export default function Navbar() {
   const { user, signout } = useAuth()

@@ -4,12 +4,14 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useAuth } from "../../lib/auth-context-supabase";
 
 // Disable static generation for this page
 export const dynamic = 'force-dynamic';
 
 export default function AuthPage() {
   const router = useRouter();
+  const { signup, signin, user, isLoading } = useAuth();
   const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -17,28 +19,28 @@ export default function AuthPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Mock authentication state for build compatibility
-  const isAuthenticated = false;
-  const isLoading = false;
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError("");
 
     try {
-      // Mock authentication for build compatibility
-      // In production, you'd integrate with OAuth providers
-      console.log(`${isSignUp ? 'Sign up' : 'Sign in'} attempt:`, { email, name, password });
-      
-      // Simulate successful authentication
-      setTimeout(() => {
-        setLoading(false);
+      let result;
+      if (isSignUp) {
+        result = await signup(email, name, password);
+      } else {
+        result = await signin(email, password);
+      }
+
+      if (result.success) {
         // Redirect to dashboard after successful authentication
         router.push('/dashboard');
-      }, 1500);
+      } else {
+        setError(result.error || "Authentication failed");
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
+    } finally {
       setLoading(false);
     }
   };
@@ -61,7 +63,7 @@ export default function AuthPage() {
     );
   }
 
-  if (isAuthenticated) {
+  if (user) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-900 via-secondary-900 to-primary-800 relative overflow-hidden">
         <div className="absolute inset-0 overflow-hidden">
