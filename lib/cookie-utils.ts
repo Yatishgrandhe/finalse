@@ -16,7 +16,7 @@ export const cookieUtils = {
     if (typeof document === 'undefined') return;
     
     const {
-      maxAge = 24 * 60 * 60, // 24 hours default for session
+      maxAge = 7 * 24 * 60 * 60, // 7 days default
       path = '/',
       domain,
       secure = false,
@@ -34,7 +34,6 @@ export const cookieUtils = {
     }
     
     document.cookie = cookieString;
-    console.log('Cookie set:', { name, value, maxAge, cookieString });
   },
 
   /**
